@@ -1,6 +1,43 @@
 
 # **Blockchain Demo Application**
 
+## Table of Contents
+- [**Blockchain Demo Application**](#**blockchain-demo-application**)
+  - [**Overview**](#**overview**)
+  - [**Features**](#**features**)
+    - [**1. Transaction Management**](#**1.-transaction-management**)
+    - [**2. Mining**](#**2.-mining**)
+    - [**3. Blockchain Visualization**](#**3.-blockchain-visualization**)
+    - [**4. Validation**](#**4.-validation**)
+  - [**Screenshots**](#**screenshots**)
+    - [**Main Page**](#**main-page**)
+    - [**Blockchain Visualization**](#**blockchain-visualization**)
+  - [**Technologies Used**](#**technologies-used**)
+    - [**Backend**](#**backend**)
+    - [**Frontend**](#**frontend**)
+    - [**Other**](#**other**)
+  - [**Project Structure**](#**project-structure**)
+  - [**Installation and Usage**](#**installation-and-usage**)
+    - [**Requirements**](#**requirements**)
+    - [**Setup**](#**setup**)
+      - [**Using start.sh**](#**using-start.sh**)
+      - [**Using Docker**](#**using-docker**)
+      - [**Without Docker**](#**without-docker**)
+  - [**API Endpoints**](#**api-endpoints**)
+    - [**Transaction Endpoints**](#**transaction-endpoints**)
+    - [**Mining Endpoints**](#**mining-endpoints**)
+    - [**Blockchain Endpoints**](#**blockchain-endpoints**)
+  - [**Key Functional Details**](#**key-functional-details**)
+    - [**1. Transactions**](#**1.-transactions**)
+    - [**2. Mining**](#**2.-mining**)
+    - [**3. Blockchain Validation**](#**3.-blockchain-validation**)
+  - [**Customization**](#**customization**)
+    - [**Difficulty Adjustment**](#**difficulty-adjustment**)
+    - [**Mining Reward**](#**mining-reward**)
+  - [**Future Improvements**](#**future-improvements**)
+  - [**License**](#**license**)
+  - [**Contributors**](#**contributors**)
+
 ## **Overview**
 
 This is a **Blockchain Demo Application** implemented in Python with a web-based user interface. It provides a simple simulation of blockchain functionality, including the creation of transactions, mining blocks, and verifying the blockchain's integrity. The project demonstrates the fundamental concepts of blockchain technology, including cryptographic signatures, block hashing, and chain validation.
@@ -101,14 +138,14 @@ The application includes the following key features:
    ```
 
 2. Set the privilege
-  ```bash
-  chmod +x start.sh
-  ```
+    ```bash
+    chmod +x start.sh
+    ```
 
 3. Run the script
-  ```bash
-  ./start.sh
-  ```
+    ```bash
+    ./start.sh
+    ```
 
 #### **Using Docker**
 1. Clone the repository:
