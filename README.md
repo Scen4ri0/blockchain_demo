@@ -93,6 +93,17 @@ The application includes the following key features:
 
 ### **Setup**
 
+#### **Using start.sh**
+1. Set the privilege
+  ```bash
+  chmod +x start.sh
+  ```
+
+2. Run the script
+  ```bash
+  ./start.sh
+  ```
+  
 #### **Using Docker**
 1. Clone the repository:
    ```bash
