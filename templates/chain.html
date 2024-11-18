@@ -9,10 +9,8 @@
 <body>
     <div class="container">
         <h1>Blockchain Visualization</h1>
-        <button class="button" onclick="loadChain()">Refresh Blockchain</button>
-        <div id="blockchain-container">
-            <!-- Блоки будут динамически добавляться здесь -->
-        </div>
+        <button id="refresh-button" onclick="loadChain()">Refresh Blockchain</button>
+        <div id="blockchain-visualization" class="block-container"></div>
     </div>
     <script src="/static/chain.js"></script>
 </body>

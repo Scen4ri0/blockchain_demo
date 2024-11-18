@@ -1,22 +1,23 @@
-async function fetchChain() {
+async function loadChain() {
     try {
         const response = await fetch('/api/chain');
-        const chain = await response.json();
+        if (!response.ok) throw new Error(`Failed to fetch blockchain: ${response.statusText}`);
 
-        const chainDiv = document.getElementById("blockchainOutput");
-        chainDiv.innerHTML = ""; // Очистка предыдущих данных
+        const chain = await response.json();
+        const blockchainContainer = document.getElementById("blockchain-visualization");
+        blockchainContainer.innerHTML = ""; // Очистка контейнера перед отрисовкой
+
+        if (chain.length === 0) {
+            blockchainContainer.innerHTML = "<p>No blocks in the blockchain.</p>";
+            return;
+        }
 
         chain.forEach(block => {
             const blockDiv = document.createElement("div");
-            blockDiv.className = "validation-step";
-            blockDiv.style.border = "1px solid #ccc";
-            blockDiv.style.borderRadius = "10px";
-            blockDiv.style.backgroundColor = "#f9f9f9";
-            blockDiv.style.padding = "15px";
-            blockDiv.style.marginBottom = "15px";
+            blockDiv.className = "block";
 
             blockDiv.innerHTML = `
-                <h3>Index: ${block.index}</h3>
+                <h3>Block Index: ${block.index}</h3>
                 <p><strong>Timestamp:</strong> ${new Date(block.timestamp * 1000).toLocaleString()}</p>
                 <p><strong>Hash:</strong> ${block.hash}</p>
                 <p><strong>Previous Hash:</strong> ${block.previous_hash}</p>
@@ -29,24 +30,23 @@ async function fetchChain() {
                                     <strong>Sender:</strong> ${tx.sender}, 
                                     <strong>Recipient:</strong> ${tx.recipient}, 
                                     <strong>Amount:</strong> ${tx.amount}
-                                    ${tx.signature ? `<br><strong>Signature:</strong> ${tx.signature.slice(0, 20)}...` : ""}
                                 </li>
                             `).join("")
-                            : "<li>No transactions in this block.</li>"
+                            : "<li>No transactions</li>"
                     }
                 </ul>
             `;
-            chainDiv.appendChild(blockDiv);
+
+            blockchainContainer.appendChild(blockDiv);
         });
     } catch (error) {
-        console.error("Error fetching chain:", error);
-        alert("Failed to load blockchain.");
+        console.error("Error loading blockchain:", error);
+        const blockchainContainer = document.getElementById("blockchain-visualization");
+        blockchainContainer.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
     }
 }
 
-
-
-// Инициализация загрузки данных при загрузке страницы
+// Загружаем блокчейн при загрузке страницы
 document.addEventListener("DOMContentLoaded", () => {
     loadChain();
 });

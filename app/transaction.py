@@ -8,12 +8,15 @@ class Transaction:
         self.sender = sender
         self.recipient = recipient
         self.amount = amount
-        self.signature = None if sender == "System" else self.sign_transaction(private_key)
+        self.signature = None
+        if sender != "System" and private_key:
+            self.signature = self.sign_transaction(private_key)
 
     def sign_transaction(self, private_key):
+        """Подписывает транзакцию, если передан приватный ключ."""
         if private_key is None:
-            return None  # Нет подписи для системных транзакций
-        message = f"{self.sender}->{self.recipient}:{self.amount}".encode()
+            raise ValueError("Private key is required to sign the transaction.")
+        message = self._generate_message().encode()
         return private_key.sign(
             message,
             padding.PSS(mgf=padding.MGF1(SHA256()), salt_length=padding.PSS.MAX_LENGTH),
@@ -21,11 +24,14 @@ class Transaction:
         )
 
     def verify_signature(self, public_key):
+        """Проверяет подпись транзакции."""
         if self.sender == "System":
-            # Системные транзакции не требуют проверки подписи
-            return True
-        message = f"{self.sender}->{self.recipient}:{self.amount}".encode()
+            return True  # Системные транзакции не требуют подписи
+        if not self.signature:
+            print(f"Transaction from {self.sender} to {self.recipient} has no signature.")
+            return False
         try:
+            message = self._generate_message().encode()
             public_key.verify(
                 self.signature,
                 message,
@@ -34,23 +40,30 @@ class Transaction:
             )
             return True
         except Exception as e:
-            print(f"Verification failed for transaction {self.to_dict()}: {e}")
+            print(f"Signature verification failed: {e}")
             return False
 
     def to_dict(self):
+        """Возвращает словарь с данными транзакции."""
         return {
             "sender": self.sender,
             "recipient": self.recipient,
             "amount": self.amount,
-            "signature": self.signature.hex() if self.signature else None,
+            "signature": base64.b64encode(self.signature).decode() if self.signature else None,
         }
 
     @staticmethod
     def from_dict(data):
-        signature = base64.b64decode(data['signature']) if data['signature'] else None
-        return Transaction(
+        """Восстанавливает транзакцию из словаря."""
+        signature = base64.b64decode(data['signature']) if data.get('signature') else None
+        transaction = Transaction(
             sender=data['sender'],
             recipient=data['recipient'],
             amount=data['amount'],
-            private_key=None  # Приватный ключ не требуется для восстановления
         )
+        transaction.signature = signature
+        return transaction
+
+    def _generate_message(self):
+        """Создает строку для подписания."""
+        return f"{self.sender}->{self.recipient}:{self.amount}"
