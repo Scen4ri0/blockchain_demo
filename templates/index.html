@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Demo</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div id="actions-container">
+        <div class="action-card">
+            <h3>View Blockchain</h3>
+            <p>Visualize the current blockchain structure.</p>
+            <a href="/chain" class="button">Go to Blockchain</a>
+        </div>
+        <div class="action-card">
+            <h3>Add New Block</h3>
+            <p>Add a new block to the blockchain by providing data.</p>
+            <input type="text" id="blockData" placeholder="Enter Block Data">
+            <button class="button" onclick="addBlock()">Add Block</button>
+        </div>
+        <div class="action-card">
+            <h3>Create Transaction</h3>
+            <p>Create a transaction by providing sender, recipient, and amount.</p>
+            <input type="text" id="transactionSender" placeholder="Sender">
+            <input type="text" id="transactionRecipient" placeholder="Recipient">
+            <input type="number" id="transactionAmount" placeholder="Amount">
+            <button class="button" onclick="createTransaction()">Create Transaction</button>
+        </div>
+        <div class="action-card">
+            <h3>Pending Transactions</h3>
+            <p>View transactions that are waiting to be added to the blockchain.</p>
+            <button class="button" onclick="fetchPendingTransactions()">View Pending Transactions</button>
+            <div id="pendingTransactionsOutput"></div>
+        </div>
+        <div class="action-card">
+            <h3>Validate Blockchain</h3>
+            <p>Verify the integrity and validity of the blockchain.</p>
+            <button class="button" onclick="validateBlockchain()">Validate</button>
+        </div>
+    </div>
+    <div id="output"></div>
+    <script src="/static/index.js"></script>
+</body>
+</html>
