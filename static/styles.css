@@ -124,3 +124,56 @@ button.button:hover {
         transform: translateY(0);
     }
 }
+
+/* Вывод для секции майнинга */
+#output-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Roboto', Arial, sans-serif;
+    text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Стили для сообщения о результатах */
+.mining-success {
+    color: green;
+    font-weight: bold;
+}
+
+.mining-failure {
+    color: red;
+    font-weight: bold;
+}
+
+.block-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.block-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.block-card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.block-card p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 14px;
+    word-wrap: break-word;
+}

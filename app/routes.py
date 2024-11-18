@@ -3,6 +3,7 @@ from .blockchain import Blockchain
 from .transaction import Transaction
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
+import base64
 
 # Создаем экземпляр блокчейна
 blockchain = Blockchain()
@@ -13,6 +14,12 @@ user_keys = {
     "Alice": rsa.generate_private_key(public_exponent=65537, key_size=2048),
     "Bob": rsa.generate_private_key(public_exponent=65537, key_size=2048),
 }
+
+def get_public_key(user):
+    return base64.b64encode(user_keys[user].public_key().public_bytes(
+        encoding=Encoding.PEM,
+        format=PublicFormat.SubjectPublicKeyInfo
+    )).decode()
 
 # === Маршруты ===
 @routes.route('/')
@@ -35,27 +42,38 @@ def create_transaction():
     private_key = user_keys[sender]
     transaction = Transaction(sender, recipient, float(amount), private_key)
 
-    # Проверяем подпись
-    public_key = private_key.public_key()
-    if not transaction.verify_signature(public_key):
-        return jsonify({"error": "Invalid transaction signature"}), 400
+    # Добавляем транзакцию с передачей user_keys
+    try:
+        blockchain.add_transaction(transaction, user_keys)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
 
-    # Добавляем транзакцию в ожидающие
-    blockchain.add_transaction(transaction)
-    return jsonify({"message": "Transaction added to pending transactions", "transaction": {
-        "sender": sender,
-        "recipient": recipient,
-        "amount": amount
-    }})
+    return jsonify({"message": "Transaction added to pending transactions", "transaction": transaction.to_dict()})
+
 
 @routes.route('/api/mine', methods=['POST'])
 def mine_transactions():
-    miner_address = request.json.get("miner")
+    miner_address = request.json.get("miner", "Unknown Miner")
     if not miner_address:
-        return jsonify({"error": "Missing miner address"}), 400
+        return jsonify({"error": "Miner address is required"}), 400
 
+    # Майнинг транзакций
     message = blockchain.mine_pending_transactions(miner_address)
-    return jsonify({"message": message, "chain": [block.__dict__ for block in blockchain.chain]})
+
+    # Форматируем данные для ответа
+    chain_data = [
+        {
+            "index": block.index,
+            "timestamp": block.timestamp,
+            "transactions": [tx.to_dict() for tx in block.transactions],
+            "previous_hash": block.previous_hash,
+            "hash": block.hash,
+        }
+        for block in blockchain.chain
+    ]
+
+    return jsonify({"message": message, "chain": chain_data})
+
 
 @routes.route('/api/pending_transactions', methods=['GET'])
 def get_pending_transactions():
@@ -81,14 +99,21 @@ def get_public_keys():
 @routes.route('/api/add_block', methods=['POST'])
 def add_block():
     data = request.json.get('data', 'No data provided')
-    blockchain.add_block([data])  # Передаем данные в виде списка
+
+    # Преобразуем данные в список транзакций или оставляем как строку
+    if isinstance(data, list):
+        transactions = [Transaction(tx["sender"], tx["recipient"], tx["amount"], None) for tx in data]
+    else:
+        transactions = data
+
+    blockchain.add_block(transactions)
     return jsonify({
         "message": "Block added successfully",
         "chain": [
             {
                 "index": block.index,
                 "timestamp": block.timestamp,
-                "transactions": [tx.to_dict() for tx in block.transactions],
+                "transactions": [tx.to_dict() if isinstance(tx, Transaction) else tx for tx in block.transactions],
                 "previous_hash": block.previous_hash,
                 "hash": block.hash,
             }
@@ -96,22 +121,15 @@ def add_block():
         ]
     })
 
+
 @routes.route('/api/chain', methods=['GET'])
 def get_chain():
-    chain_data = []
-    for block in blockchain.chain:
-        chain_data.append({
-            "index": block.index,
-            "timestamp": block.timestamp,
-            "transactions": [{
-                "sender": tx.sender,
-                "recipient": tx.recipient,
-                "amount": tx.amount
-            } for tx in block.transactions],
-            "previous_hash": block.previous_hash,
-            "hash": block.hash,
-        })
-    return jsonify(chain_data)
+    try:
+        chain_data = [block.to_dict() for block in blockchain.chain]
+        return jsonify(chain_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 @routes.route('/chain', methods=['GET'])
 def chain_page():

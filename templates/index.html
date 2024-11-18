@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
+    <h1>Blockchain Demo</h1>
     <div id="actions-container">
         <div class="action-card">
             <h3>View Blockchain</h3>
@@ -34,12 +35,27 @@
             <div id="pendingTransactionsOutput"></div>
         </div>
         <div class="action-card">
+            <h3>Mine Transactions</h3>
+            <p>Mine a new block with the pending transactions.</p>
+            <button class="button" onclick="mineTransactions()">Mine Transactions</button>
+        </div>
+        <div class="action-card">
             <h3>Validate Blockchain</h3>
             <p>Verify the integrity and validity of the blockchain.</p>
             <button class="button" onclick="validateBlockchain()">Validate</button>
         </div>
     </div>
-    <div id="output"></div>
+
+    <div id="output-section">
+        <h2>Output</h2>
+        <div id="output"></div>
+    </div>
+
+    <div id="blockchain-section">
+        <h2>Blockchain</h2>
+        <div id="blockchainOutput"></div>
+    </div>
+
     <script src="/static/index.js"></script>
 </body>
 </html>
