@@ -4,34 +4,6 @@ async function handleError(response) {
     return errorText || response.statusText;
 }
 
-async function addBlock() {
-    const blockData = document.getElementById("blockData").value.trim();
-    if (!blockData) {
-        alert("Please enter block data.");
-        return;
-    }
-
-    try {
-        const response = await fetch('/api/add_block', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data: blockData }),
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            alert(result.message);
-            fetchChain(); // Обновление цепочки
-        } else {
-            const errorText = await handleError(response);
-            alert(`Error: ${errorText}`);
-        }
-    } catch (error) {
-        console.error("Error adding block:", error);
-        alert("Failed to add block. Please try again.");
-    }
-}
-
 async function validateBlockchain() {
     try {
         const response = await fetch('/api/validate');
