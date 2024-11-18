@@ -94,16 +94,22 @@ The application includes the following key features:
 ### **Setup**
 
 #### **Using start.sh**
-1. Set the privilege
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/blockchain-demo.git
+   cd blockchain-demo
+   ```
+
+2. Set the privilege
   ```bash
   chmod +x start.sh
   ```
 
-2. Run the script
+3. Run the script
   ```bash
   ./start.sh
   ```
-  
+
 #### **Using Docker**
 1. Clone the repository:
    ```bash
