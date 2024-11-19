@@ -1,292 +1,132 @@
 
-# **Blockchain Demo Application**
+# **Демонстрационное приложение Blockchain**
 
-## Table of Contents
-- [**Blockchain Demo Application**](#**blockchain-demo-application**)
-  - [**Overview**](#**overview**)
-  - [**Features**](#**features**)
-    - [**1. Transaction Management**](#**1.-transaction-management**)
-    - [**2. Mining**](#**2.-mining**)
-    - [**3. Blockchain Visualization**](#**3.-blockchain-visualization**)
-    - [**4. Validation**](#**4.-validation**)
-  - [**Screenshots**](#**screenshots**)
-    - [**Main Page**](#**main-page**)
-    - [**Blockchain Visualization**](#**blockchain-visualization**)
-  - [**Technologies Used**](#**technologies-used**)
-    - [**Backend**](#**backend**)
-    - [**Frontend**](#**frontend**)
-    - [**Other**](#**other**)
-  - [**Project Structure**](#**project-structure**)
-  - [**Installation and Usage**](#**installation-and-usage**)
-    - [**Requirements**](#**requirements**)
-    - [**Setup**](#**setup**)
-      - [**Using start.sh**](#**using-start.sh**)
-      - [**Using Docker**](#**using-docker**)
-      - [**Without Docker**](#**without-docker**)
-  - [**API Endpoints**](#**api-endpoints**)
-    - [**Transaction Endpoints**](#**transaction-endpoints**)
-    - [**Mining Endpoints**](#**mining-endpoints**)
-    - [**Blockchain Endpoints**](#**blockchain-endpoints**)
-  - [**Key Functional Details**](#**key-functional-details**)
-    - [**1. Transactions**](#**1.-transactions**)
-    - [**2. Mining**](#**2.-mining**)
-    - [**3. Blockchain Validation**](#**3.-blockchain-validation**)
-  - [**Customization**](#**customization**)
-    - [**Difficulty Adjustment**](#**difficulty-adjustment**)
-    - [**Mining Reward**](#**mining-reward**)
-  - [**Future Improvements**](#**future-improvements**)
-  - [**License**](#**license**)
-  - [**Contributors**](#**contributors**)
+## Оглавление
+- [**Демонстрационное приложение Blockchain**](#демонстрационное-приложение-blockchain)
+  - [**Обзор**](#обзор)
+  - [**Функции**](#функции)
+    - [**1. Управление транзакциями**](#1-управление-транзакциями)
+    - [**2. Майнинг**](#2-майнинг)
+    - [**3. Визуализация блокчейна**](#3-визуализация-блокчейна)
+    - [**4. Валидация**](#4-валидация)
+  - [**Скриншоты**](#скриншоты)
+    - [**Главная страница**](#главная-страница)
+    - [**Страница блокчейна**](#страница-блокчейна)
+  - [**Как развернуть проект**](#как-развернуть-проект)
+    - [**Локальное развертывание**](#локальное-развертывание)
+    - [**Использование Docker**](#использование-docker)
+  - [**Использование API**](#использование-api)
+    - [**1. Создание транзакции**](#1-создание-транзакции)
+    - [**2. Майнинг транзакций**](#2-майнинг-транзакций)
+    - [**3. Получение списка блоков**](#3-получение-списка-блоков)
+    - [**4. Получение списка ожидающих транзакций**](#4-получение-списка-ожидающих-транзакций)
+    - [**5. Валидация цепочки**](#5-валидация-цепочки)
 
-## **Overview**
+## **Обзор**
+Это веб-приложение для демонстрации работы блокчейна. Вы можете создавать транзакции, майнить блоки, проверять их на валидность и визуализировать структуру блокчейна.
 
-This is a **Blockchain Demo Application** implemented in Python with a web-based user interface. It provides a simple simulation of blockchain functionality, including the creation of transactions, mining blocks, and verifying the blockchain's integrity. The project demonstrates the fundamental concepts of blockchain technology, including cryptographic signatures, block hashing, and chain validation.
+## **Функции**
+### **1. Управление транзакциями**
+- Возможность создать транзакции, указывая отправителя, получателя и сумму.
 
----
+### **2. Майнинг**
+- После создания транзакций можно их майнить, чтобы включить в новый блок.
 
-## **Features**
+### **3. Визуализация блокчейна**
+- Отображение всей цепочки блоков, включая информацию о транзакциях.
 
-The application includes the following key features:
+### **4. Валидация**
+- Проверка целостности цепочки для выявления повреждений.
 
-### **1. Transaction Management**
-- **Create Transactions**: Users can create transactions by specifying the sender, recipient, and amount.
-- **Pending Transactions**: View all transactions waiting to be added to the blockchain.
+## **Скриншоты**
 
-### **2. Mining**
-- **Mine Pending Transactions**: Users can mine a new block containing the pending transactions. Mining rewards are automatically added to the miner's address.
+### **Главная страница**
+![Главная страница](https://via.placeholder.com/600x400)
 
-### **3. Blockchain Visualization**
-- **View Blockchain**: Explore the current blockchain structure, including each block's:
-  - Index
-  - Timestamp
-  - Hash
-  - Previous hash
-  - Transactions within the block
+### **Страница блокчейна**
+![Страница блокчейна](https://via.placeholder.com/600x400)
 
-### **4. Validation**
-- **Validate Blockchain**: Verify the blockchain's integrity by checking the hashes and chain links. Any tampering or corruption will be detected.
+## **Как развернуть проект**
 
----
-
-## **Screenshots**
-
-### **Main Page**
-<img src="images/main_page.png" alt="Main Page" width="800">
-
-### **Blockchain Visualization**
-<img src="images/blockchain_page.png" alt="Blockchain Visualization" width="800">
-
----
-
-## **Technologies Used**
-
-### **Backend**
-- **Python**: Core logic of the blockchain.
-- **Flask**: Web framework for building the REST API and serving HTML.
-- **Cryptography**: Used for generating and verifying cryptographic signatures.
-
-### **Frontend**
-- **HTML, CSS, JavaScript**: User interface design.
-- **D3.js**: For visualizing the blockchain structure.
-
-### **Other**
-- **Docker**: The application is containerized for easy deployment.
-
----
-
-## **Project Structure**
-
-```plaintext
-.
-├── app
-│   ├── blockchain.py         # Blockchain logic
-│   ├── transaction.py        # Transaction handling
-│   ├── routes.py             # API routes and page rendering
-│   ├── utils.py              # Utility functions
-│   └── __init__.py           # Flask app initialization
-├── static
-│   ├── index.js              # Main JavaScript logic
-│   ├── chain.js              # Blockchain visualization logic
-│   ├── styles.css            # CSS styles
-│   └── scripts.js            # Additional helper scripts
-├── templates
-│   ├── index.html            # Main page template
-│   ├── chain.html            # Blockchain visualization template
-├── requirements.txt          # Python dependencies
-├── run.py                    # Main application entry point
-├── Dockerfile                # Docker configuration
-└── README.md                 # Documentation
-```
-
----
-
-## **Installation and Usage**
-
-### **Requirements**
-- **Docker** (for containerized deployment)
-- Alternatively:
-  - **Python 3.9+**
-  - Virtual environment tools such as `venv` or `virtualenv`
-
-### **Setup**
-
-#### **Using start.sh**
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/blockchain-demo.git
-   cd blockchain-demo
-   ```
-
-2. Set the privilege
+### **Локальное развертывание**
+1. Убедитесь, что у вас установлен Python (версия 3.10 или выше).
+2. Установите зависимости:
     ```bash
-    chmod +x start.sh
+    pip install -r requirements.txt
     ```
-
-3. Run the script
+3. Запустите сервер:
     ```bash
-    ./start.sh
+    python run.py
     ```
+4. Откройте [http://127.0.0.1:5000](http://127.0.0.1:5000) в браузере.
 
-#### **Using Docker**
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/blockchain-demo.git
-   cd blockchain-demo
-   ```
+### **Использование Docker**
+1. Соберите Docker-образ:
+    ```bash
+    docker build -t blockchain-demo .
+    ```
+2. Запустите контейнер:
+    ```bash
+    docker run --rm -d -p 5000:5000 --name blockchain-demo blockchain-demo
+    ```
+3. Откройте [http://127.0.0.1:5000](http://127.0.0.1:5000) в браузере.
 
-2. Build the Docker image:
-   ```bash
-   docker build -t blockchain-demo .
-   ```
+## **Использование API**
 
-3. Run the Docker container:
-   ```bash
-   docker run --rm -d -p 5000:5000 --network host --name blockchain-demo blockchain-demo
-   ```
-
-4. Access the application in your browser:
-   ```
-   http://127.0.0.1:5000
-   ```
-
-#### **Without Docker**
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/blockchain-demo.git
-   cd blockchain-demo
-   ```
-
-2. Create and activate a virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # For Linux/Mac
-   venv\Scriptsctivate     # For Windows
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Run the application:
-   ```bash
-   python run.py
-   ```
-
-5. Access the application in your browser:
-   ```
-   http://127.0.0.1:5000
-   ```
-
----
-
-## **API Endpoints**
-
-### **Transaction Endpoints**
-- `POST /api/create_transaction`
-  - **Description**: Create a new transaction.
-  - **Request Body**:
+### **1. Создание транзакции**
+- **POST** `/api/create_transaction`
+- **Параметры:**
     ```json
     {
-      "sender": "Alice",
-      "recipient": "Bob",
-      "amount": 10
+        "sender": "Alice",
+        "recipient": "Bob",
+        "amount": 50
     }
     ```
-- `GET /api/pending_transactions`
-  - **Description**: Retrieve all pending transactions.
-
-### **Mining Endpoints**
-- `POST /api/mine`
-  - **Description**: Mine a block with the pending transactions.
-  - **Request Body**:
+- **Ответ:**
     ```json
-    {
-      "miner": "MinerAddress"
-    }
+    {"message": "Transaction created successfully!"}
     ```
 
-### **Blockchain Endpoints**
-- `GET /api/chain`
-  - **Description**: Retrieve the entire blockchain.
-- `GET /api/validate`
-  - **Description**: Validate the blockchain's integrity.
+### **2. Майнинг транзакций**
+- **POST** `/api/mine`
+- **Параметры:**
+    ```json
+    {"miner": "Alice"}
+    ```
+- **Ответ:**
+    ```json
+    {"message": "Block mined successfully!"}
+    ```
 
----
+### **3. Получение списка блоков**
+- **GET** `/api/chain`
+- **Ответ:**
+    ```json
+    [
+        {
+            "index": 0,
+            "timestamp": "2023-10-01T12:00:00",
+            "transactions": [],
+            "hash": "...",
+            "previous_hash": "0"
+        },
+        ...
+    ]
+    ```
 
-## **Key Functional Details**
+### **4. Получение списка ожидающих транзакций**
+- **GET** `/api/pending_transactions`
+- **Ответ:**
+    ```json
+    [
+        {"sender": "Alice", "recipient": "Bob", "amount": 50}
+    ]
+    ```
 
-### **1. Transactions**
-Each transaction includes:
-- **Sender**
-- **Recipient**
-- **Amount**
-- **Signature** (if applicable)
-
-System transactions (e.g., mining rewards) do not require a signature.
-
-### **2. Mining**
-When mining:
-- A reward transaction is added to the pending transactions.
-- The miner receives the reward in the next block.
-
-### **3. Blockchain Validation**
-Validation checks:
-- The hash of each block is correctly calculated.
-- Each block's `previous_hash` matches the hash of the previous block.
-
----
-
-## **Customization**
-
-### **Difficulty Adjustment**
-You can change the mining difficulty in `blockchain.py`:
-```python
-self.difficulty = 4  # Increase for more computation time
-```
-
-### **Mining Reward**
-Change the reward amount in `blockchain.py`:
-```python
-self.mining_reward = 50  # Adjust as needed
-```
-
----
-
-## **Future Improvements**
-- Add support for multiple wallets and dynamic key generation.
-- Improve transaction visualization with more detailed information.
-- Implement peer-to-peer networking for blockchain replication.
-- Optimize mining for better performance in larger blockchains.
-
----
-
-## **License**
-This project is licensed under the MIT License. Feel free to use and modify it as needed.
-
----
-
-## **Contributors**
-- [Scen4ri0](https://github.com/Scen4ri0)
-
-For any questions or issues, feel free to open an issue on GitHub or reach out via email. 😊
+### **5. Валидация цепочки**
+- **GET** `/api/validate`
+- **Ответ:**
+    ```json
+    {"valid": true, "steps": [...]}
+    ```
